@@ -9,19 +9,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;600&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* --- 1. ESTILOS GENERALES --- */
+        /* --- ESTILOS GENERALES --- */
         :root {
             --primary: #FF6B6B;      /* Rojo Pastel */
             --secondary: #4ECDC4;    /* Turquesa */
             --accent: #FFE66D;       /* Amarillo */
             --dark: #2C3E50;         /* Azul Oscuro */
-            --light: #F7FFF7;        /* Blanco Hueso */
+            --bg-color: #A8D0E6;     /* Fondo Azul */
         }
 
         * { box-sizing: border-box; }
 
         body {
-            background-color: #A8D0E6;
+            background-color: var(--bg-color);
             background-image: radial-gradient(#ffffff 20%, transparent 20%);
             background-size: 20px 20px;
             display: grid;
@@ -33,7 +33,7 @@
             font-family: 'Comic Neue', cursive;
         }
 
-        /* --- 2. CONTENEDOR DE SLIDES --- */
+        /* --- CONTENEDOR DE SLIDES --- */
         .slide-container {
             background-color: #ffffff;
             border: 4px solid var(--dark);
@@ -48,7 +48,7 @@
             padding: 40px;
         }
 
-        /* --- 3. TEXTOS --- */
+        /* --- TIPOGRAFÍA --- */
         h1, h2, h3 {
             font-family: 'Fredoka', sans-serif;
             color: var(--dark);
@@ -63,7 +63,7 @@
         ul { padding-left: 25px; margin-top: 5px; }
         li { margin-bottom: 8px; }
 
-        /* --- 4. ESTRUCTURA INTERNA --- */
+        /* --- LAYOUTS --- */
         .header-bar {
             width: 100%;
             display: flex;
@@ -91,14 +91,9 @@
             overflow: hidden;
         }
 
-        .text-col { 
-            flex: 1.2; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center;
-            height: 100%;
-        }
-        
+        .text-col { flex: 1.2; display: flex; flex-direction: column; justify-content: center; height: 100%; }
+        .img-col { flex: 0.8; display: flex; justify-content: center; align-items: center; }
+
         .full-width-text {
             width: 100%;
             display: flex;
@@ -107,8 +102,6 @@
             align-items: flex-start;
         }
         .column { flex: 1; }
-        
-        .img-col { flex: 0.8; display: flex; justify-content: center; align-items: center; }
 
         .img-frame {
             background: white;
@@ -127,7 +120,7 @@
             border-radius: 10px;
         }
 
-        /* --- 5. QUIZ Y CAJAS DE TEORÍA --- */
+        /* --- CAJAS DE TEORÍA Y QUIZ --- */
         .theory-box {
             background: #fff;
             border: 2px solid;
@@ -154,12 +147,25 @@
             margin-bottom: 15px;
         }
 
+        .question-text {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+        .question-text span {
+            color: var(--primary);
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
         .options-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, 1fr); /* 2 columnas */
             gap: 10px;
-            margin-top: 10px;
         }
+        /* Para opciones largas que ocupen todo el ancho */
+        .options-grid.full { grid-template-columns: 1fr; }
 
         .option-btn {
             background: white;
@@ -176,17 +182,15 @@
         .option-btn.correct { background-color: #4ECDC4 !important; color: white !important; border-color: #4ECDC4 !important; }
         .option-btn.wrong { background-color: #FF6B6B !important; color: white !important; border-color: #FF6B6B !important; opacity: 0.6; }
 
-        /* --- 6. VARIANTS --- */
+        /* --- COLORES DE FONDO --- */
         .bg-pink { background-color: #FFE3E3; }
         .bg-green { background-color: #E3FDF5; }
         .bg-yellow { background-color: #FFF9C4; }
 
-        /* Scrollbar bonito */
+        /* Scrollbar */
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 5px; }
         ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 5px; }
-        ::-webkit-scrollbar-thumb:hover { background: #aaa; }
-
     </style>
 </head>
 <body>
@@ -224,7 +228,7 @@
             <div class="theory-box" style="border-color: var(--primary);">
                 <h3 style="color: var(--primary);">Tipos de Homonimia:</h3>
                 <ul>
-                    <li><strong>Homógrafas:</strong> Igual escritura y pronunciación, distinto significado.<br><em>Ej: Vino (bebida) - Vino (venir).</em></li>
+                    <li><strong>Homógrafas:</strong> Igual escritura y pronunciación.<br><em>Ej: Vino (bebida) - Vino (venir).</em></li>
                     <li><strong>Homófonas:</strong> Igual pronunciación, distinta escritura.<br><em>Ej: Barón (título) - Varón (hombre).</em></li>
                 </ul>
             </div>
@@ -250,7 +254,6 @@
                 <p style="font-size: 30px; text-align: center; margin: 20px 0;">
                     <strong>Adoptar</strong> (Hijo)<br>vs<br><strong>Adaptar</strong> (Ajustar)
                 </p>
-                <p>También: <em>Abside - Ápside</em></p>
             </div>
         </div>
         <div class="img-col">
@@ -264,26 +267,24 @@
 <div class="slide-container bg-green">
     <div class="header-bar">
         <h2>3. Polisemia vs. Monosemia</h2>
-        <span class="badge"><i class="fas fa-book"></i> Teoría Pura</span>
+        <span class="badge"><i class="fas fa-book"></i> Teoría</span>
     </div>
     <div class="content-area">
         <div class="full-width-text">
             <div class="column">
                 <div class="theory-box" style="border-color: var(--dark); height: 100%;">
                     <h3 style="color: var(--dark);"><i class="fas fa-share-alt"></i> Polisemia</h3>
-                    <p>Fenómeno donde una misma palabra tiene <strong>varios significados</strong> pero comparten un origen etimológico común (rasgo común).</p>
+                    <p>Fenómeno donde una misma palabra tiene <strong>varios significados</strong> pero comparten un origen etimológico común.</p>
                     <hr>
                     <p><em>Ejemplo: "Pico" (de ave, de herramienta, de montaña).</em></p>
-                    <p><em>Ejemplo: "Luna" (satélite, cristal).</em></p>
                 </div>
             </div>
             <div class="column">
                 <div class="theory-box" style="border-color: var(--primary); height: 100%;">
                     <h3 style="color: var(--primary);"><i class="fas fa-dot-circle"></i> Monosemia</h3>
-                    <p>Significado único de una palabra. Es propio de términos <strong>científicos y técnicos</strong> para evitar confusión.</p>
+                    <p>Significado único de una palabra. Propio de términos <strong>científicos</strong>.</p>
                     <hr>
-                    <p><em>Ejemplo: "Algofobia" (miedo al dolor).</em></p>
-                    <p><em>Ejemplo: "Hematoma".</em></p>
+                    <p><em>Ejemplo: "Algofobia", "Hematoma".</em></p>
                 </div>
             </div>
         </div>
@@ -301,23 +302,18 @@
                 <div class="theory-box" style="border-color: #4ECDC4;">
                     <h3 style="color: #4ECDC4;">Sinonimia</h3>
                     <ul>
-                        <li><strong>Totales (Absolutos):</strong> Intercambiables siempre.<br><em>(Cárcel - Penitenciaría)</em></li>
-                        <li><strong>Parciales (Relativos):</strong> Solo en contexto.<br><em>(Pródigo - Generoso)</em></li>
+                        <li><strong>Totales:</strong> Intercambiables siempre.<br><em>(Cárcel - Penitenciaría)</em></li>
+                        <li><strong>Parciales:</strong> Solo en contexto.<br><em>(Pródigo - Generoso)</em></li>
                     </ul>
                 </div>
             </div>
             <div class="column">
                 <div class="theory-box" style="border-color: #FF6B6B;">
                     <h3 style="color: #FF6B6B;">Antonimia</h3>
-                    <p><strong>Por Forma:</strong></p>
                     <ul>
-                        <li>Lexicales (Raíz distinta).</li>
-                        <li>Morfológicos (Prefijos: Des-, In-).</li>
-                    </ul>
-                    <p><strong>Por Contenido:</strong></p>
-                    <ul>
-                        <li>Recíprocos (Padre-Hijo).</li>
-                        <li>Excluyentes (Vida-Muerte).</li>
+                        <li><strong>Morfológicos:</strong> Prefijos (Des-, In-).</li>
+                        <li><strong>Recíprocos:</strong> Uno implica al otro (Padre-Hijo).</li>
+                        <li><strong>Excluyentes:</strong> Negación total (Vida-Muerte).</li>
                     </ul>
                 </div>
             </div>
@@ -335,9 +331,9 @@
             <p>Relación de generalidad a especificidad.</p>
             <div class="theory-box" style="border-color: orange;">
                 <ul>
-                    <li><strong>Hiperónimo (General):</strong> Palabra que engloba a otras.<br><em>Ej: DEPORTES 🏆</em></li>
-                    <li><strong>Hipónimo (Específico):</strong> Elemento dentro de la clase.<br><em>Ej: Fútbol, Tenis, Natación.</em></li>
-                    <li><strong>Cohiponimia:</strong> Relación entre hipónimos (Fútbol y Tenis son cohipónimos).</li>
+                    <li><strong>Hiperónimo (General):</strong> DEPORTES 🏆</li>
+                    <li><strong>Hipónimo (Específico):</strong> Fútbol, Tenis.</li>
+                    <li><strong>Cohiponimia:</strong> Relación entre Fútbol y Tenis.</li>
                 </ul>
             </div>
         </div>
@@ -356,12 +352,11 @@
     </div>
     <div class="content-area">
         <div class="text-col">
-            <p>Relación de pertenencia o constitución.</p>
+            <p>Relación de pertenencia.</p>
             <div class="theory-box" style="border-color: #d63384;">
                 <ul>
-                    <li><strong>Holónimo (Todo):</strong> Palabra que engloba las partes.<br><em>Ej: BICICLETA 🚲</em></li>
-                    <li><strong>Merónimo (Parte):</strong> Parte constituyente.<br><em>Ej: Pedal, Timón, Llanta.</em></li>
-                    <li><strong>Comeronimia:</strong> Relación entre las partes (Pedal y Timón son comeronimos).</li>
+                    <li><strong>Holónimo (Todo):</strong> BICICLETA 🚲</li>
+                    <li><strong>Merónimo (Parte):</strong> Pedal, Timón, Llanta.</li>
                 </ul>
             </div>
         </div>
@@ -383,18 +378,15 @@
             <div class="column">
                 <div class="theory-box" style="border-color: var(--dark);">
                     <h3 style="color: var(--dark);">Inclusión Conceptual</h3>
-                    <p>Buscar los elementos <strong>necesarios</strong> para definir una palabra.</p>
-                    <hr>
-                    <p><em>Ej: Para definir "Kermés" necesito: fiesta, baile, recaudar.</em></p>
+                    <p>Elementos necesarios para definir una palabra.</p>
+                    <p><em>Ej: Definir "Kermés" implica: fiesta, baile.</em></p>
                 </div>
             </div>
             <div class="column">
                 <div class="theory-box" style="border-color: var(--primary);">
                     <h3 style="color: var(--primary);">La Implicancia</h3>
-                    <p>Es el rasgo común que conecta a varias palabras (La "pega" semántica).</p>
-                    <hr>
-                    <p><em>Ej: Lentes, Oculista, Lágrima, Conjuntivitis.</em></p>
-                    <p style="background: #eef; padding: 10px; border-radius: 5px; text-align: center;"><strong>IMPLICADO: Ojo 👁️</strong></p>
+                    <p>Rasgo común que conecta palabras.</p>
+                    <p><em>Ej: Lentes, Oculista, Lágrima. IMPLICADO: <strong>Ojo</strong>.</em></p>
                 </div>
             </div>
         </div>
@@ -403,19 +395,17 @@
 
 <div class="slide-container bg-yellow">
     <div class="header-bar">
-        <h2>8. El Diccionario (Lexicografía)</h2>
+        <h2>8. El Diccionario</h2>
         <span class="badge"><i class="fas fa-book-reader"></i> Estructura</span>
     </div>
     <div class="content-area">
         <div class="text-col">
-            <p>Partes de un artículo de diccionario:</p>
             <div class="theory-box" style="border-color: #555;">
-                <ul style="font-size: 20px;">
+                <ul>
                     <li><strong>Lema:</strong> Palabra a definir (en negrita).</li>
-                    <li><strong>Etimología:</strong> Origen (ej: Del lat. <em>pullus</em>).</li>
-                    <li><strong>Categoría Gramatical:</strong> Abreviatura (adj., m., f.).</li>
-                    <li><strong>Acepciones:</strong> Diferentes definiciones (separadas por || o números).</li>
-                    <li><strong>Formas complejas:</strong> Locuciones o frases hechas (ej: <em>montar el pollo</em>).</li>
+                    <li><strong>Etimología:</strong> Origen.</li>
+                    <li><strong>Categoría Gramatical:</strong> (adj., m., f.).</li>
+                    <li><strong>Acepciones:</strong> Significados numerados.</li>
                 </ul>
             </div>
         </div>
@@ -429,75 +419,159 @@
 
 <div class="slide-container bg-green" style="border-color: var(--primary);">
     <div class="header-bar">
-        <h2 style="color: var(--primary);">📝 Examen de Detective: Fase 1</h2>
+        <h2 style="color: var(--primary);">📝 Examen: Nivel 1 (Básico)</h2>
     </div>
-    
     <div class="quiz-container">
         <div class="quiz-card">
-            <div class="question-text"><span>1.</span> "Basto" (grosero) y "Vasto" (extenso) son palabras:</div>
+            <div class="question-text"><span>1.</span> ¿Cómo se denomina a las palabras que se escriben igual y presentan diferentes orígenes etimológicos?</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'b')">
+                <button class="option-btn">a) Homonimia</button>
+                <button class="option-btn" data-opt="b">b) Homografía</button>
+                <button class="option-btn">c) Homófonas</button>
+                <button class="option-btn">d) Parónimas</button>
+            </div>
+        </div>
+        <div class="quiz-card">
+            <div class="question-text"><span>2.</span> ¿Cómo se denomina a los antónimos que presentan la misma raíz?</div>
             <div class="options-grid" onclick="checkAnswer(event, 'a')">
-                <button class="option-btn" data-opt="a">a) Homófonas</button>
-                <button class="option-btn">b) Homógrafas</button>
-                <button class="option-btn">c) Parónimas</button>
-                <button class="option-btn">d) Sinónimas</button>
+                <button class="option-btn" data-opt="a">a) Antónimos morfológicos</button>
+                <button class="option-btn">b) Contrarios</button>
+                <button class="option-btn">c) Recíprocos</button>
+                <button class="option-btn">d) Totales</button>
             </div>
         </div>
-
         <div class="quiz-card">
-            <div class="question-text"><span>2.</span> ¿Qué tipo de antónimos son "Padre - Hijo" (uno implica al otro)?</div>
+            <div class="question-text"><span>3.</span> Determina a aquellos términos que pueden ser sinónimos de otras palabras solo en un contexto determinado.</div>
             <div class="options-grid" onclick="checkAnswer(event, 'c')">
-                <button class="option-btn">a) Graduales</button>
-                <button class="option-btn">b) Morfológicos</button>
-                <button class="option-btn" data-opt="c">c) Recíprocos</button>
-                <button class="option-btn">d) Excluyentes</button>
+                <button class="option-btn">a) Contextuales</button>
+                <button class="option-btn">b) Absolutos</button>
+                <button class="option-btn" data-opt="c">c) Relativos</button>
+                <button class="option-btn">d) Referenciales</button>
             </div>
         </div>
-
         <div class="quiz-card">
-            <div class="question-text"><span>3.</span> Identifica el concepto IMPLICADO en: Lentes, Oculista, Lágrima, Conjuntivitis.</div>
-            <div class="options-grid" onclick="checkAnswer(event, 'e')">
-                <button class="option-btn">a) Lentes</button>
-                <button class="option-btn">b) Oculista</button>
-                <button class="option-btn">c) Lágrima</button>
-                <button class="option-btn" data-opt="e">e) Ojo</button>
+            <div class="question-text"><span>4.</span> Determina la relación correcta hiperónimo e hipónimos.</div>
+            <div class="options-grid full" onclick="checkAnswer(event, 'c')">
+                <button class="option-btn">a) Enfermedad: cólera, bacteria, cáncer</button>
+                <button class="option-btn">b) Reptil: tortuga, quelonio, rastrero</button>
+                <button class="option-btn" data-opt="c">c) Moneda: peso, sol, yen</button>
+                <button class="option-btn">d) Planeta: Mercurio, Luna, Júpiter</button>
+            </div>
+        </div>
+        <div class="quiz-card">
+            <div class="question-text"><span>5.</span> Identifica el hipónimo de mineral.</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'c')">
+                <button class="option-btn">a) Mina</button>
+                <button class="option-btn">b) Orfebre</button>
+                <button class="option-btn" data-opt="c">c) Pirita</button>
+                <button class="option-btn">d) Compacto</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="slide-container bg-pink" style="border-color: var(--dark);">
+<div class="slide-container bg-yellow" style="border-color: var(--dark);">
     <div class="header-bar">
-        <h2 style="color: var(--dark);">📝 Examen de Detective: Fase 2</h2>
+        <h2 style="color: var(--dark);">📝 Examen: Nivel 2 (Intermedio)</h2>
     </div>
-    
     <div class="quiz-container">
         <div class="quiz-card">
-            <div class="question-text"><span>4.</span> La palabra "Pico" (ave, herramienta) tiene varios significados con origen común. Es:</div>
-            <div class="options-grid" onclick="checkAnswer(event, 'b')">
-                <button class="option-btn">a) Monosemia</button>
-                <button class="option-btn" data-opt="b">b) Polisemia</button>
-                <button class="option-btn">c) Homografía</button>
-                <button class="option-btn">d) Antonimia</button>
-            </div>
-        </div>
-
-        <div class="quiz-card">
-            <div class="question-text"><span>5.</span> "Decente" e "INdecente" son antónimos de tipo:</div>
-            <div class="options-grid" onclick="checkAnswer(event, 'a')">
-                <button class="option-btn" data-opt="a">a) Morfológicos (Gramaticales)</button>
-                <button class="option-btn">b) Lexicales</button>
-                <button class="option-btn">c) Recíprocos</button>
-                <button class="option-btn">d) Excluyentes</button>
-            </div>
-        </div>
-
-        <div class="quiz-card">
-            <div class="question-text"><span>6.</span> ¿Qué conceptos están incluidos en EROSIÓN? (I.desgaste II.superficie III.agua)</div>
+            <div class="question-text"><span>6.</span> ¿Qué vocablo es el holónimo de pantalla?</div>
             <div class="options-grid" onclick="checkAnswer(event, 'e')">
-                <button class="option-btn">a) I, II, III</button>
-                <button class="option-btn">b) Solo I</button>
-                <button class="option-btn" data-opt="e">e) I y II (Desgaste y Superficie)</button>
-                <button class="option-btn">d) Solo III</button>
+                <button class="option-btn">a) Imagen</button>
+                <button class="option-btn">b) Vidrio</button>
+                <button class="option-btn">c) Fragilidad</button>
+                <button class="option-btn" data-opt="e">e) Televisor</button>
+            </div>
+        </div>
+        <div class="quiz-card">
+            <div class="question-text"><span>7.</span> Determina cuál es el merónimo de buque.</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'd')">
+                <button class="option-btn">a) Guerra</button>
+                <button class="option-btn">b) Nave</button>
+                <button class="option-btn">c) Mar</button>
+                <button class="option-btn" data-opt="d">d) Popa</button>
+            </div>
+        </div>
+        <div class="quiz-card">
+            <div class="question-text"><span>8.</span> Identifica la alternativa conformada por la relación holónimo: merónimos.</div>
+            <div class="options-grid full" onclick="checkAnswer(event, 'a')">
+                <button class="option-btn" data-opt="a">a) Bicicleta: manubrio, pedal, sillín</button>
+                <button class="option-btn">b) Escritorio: gaveta, monitor, tablero</button>
+                <button class="option-btn">c) Avión: fuselaje, chasis, hélice</button>
+                <button class="option-btn">d) Iglesia: cúpula, vestíbulo, buhardilla</button>
+            </div>
+        </div>
+        <div class="quiz-card">
+            <div class="question-text"><span>9.</span> Efectivos policiales <u>cogieron</u> al hampón robando en una joyería. (Sinonimia)</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'b')">
+                <button class="option-btn">a) Tomaron</button>
+                <button class="option-btn" data-opt="b">b) Aprehendieron</button>
+                <button class="option-btn">c) Sujetaron</button>
+                <button class="option-btn">d) Aferraron</button>
+            </div>
+        </div>
+        <div class="quiz-card">
+            <div class="question-text"><span>10.</span> Las personas que viven en asentamientos <u>adolecen</u> de servicios básicos. (Sinonimia)</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'e')">
+                <button class="option-btn">a) Necesitan</button>
+                <button class="option-btn">b) Limitan</button>
+                <button class="option-btn">c) Recortan</button>
+                <button class="option-btn" data-opt="e">e) Carecen</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container bg-pink" style="border-color: var(--primary);">
+    <div class="header-bar">
+        <h2 style="color: var(--primary);">📝 Examen: Nivel 3 (Avanzado)</h2>
+    </div>
+    <div class="quiz-container">
+        <div class="quiz-card">
+            <div class="question-text"><span>11.</span> Si algo he aprendido en la vida es que la mentira <u>menoscaba</u> a quien la inventa. (Antonimia)</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'b')">
+                <button class="option-btn">a) Enriquece</button>
+                <button class="option-btn" data-opt="b">b) Dignifica</button>
+                <button class="option-btn">c) Prospera</button>
+                <button class="option-btn">d) Encandila</button>
+            </div>
+        </div>
+        <div class="quiz-card">
+            <div class="question-text"><span>12.</span> A pesar de estar practicando solo tres meses mi primo ya es <u>ducho</u> en kárate. (Antonimia)</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'd')">
+                <button class="option-btn">a) Ignorante</button>
+                <button class="option-btn">b) Fuerte</button>
+                <button class="option-btn">c) Iletrado</button>
+                <button class="option-btn" data-opt="d">d) Inexperto</button>
+            </div>
+        </div>
+        <div class="quiz-card">
+            <div class="question-text"><span>13.</span> Identifique el término IMPLICADO en los demás.</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'd')">
+                <button class="option-btn">a) Flor</button>
+                <button class="option-btn">b) Hoja</button>
+                <button class="option-btn">c) Fruto</button>
+                <button class="option-btn" data-opt="d">d) Planta</button>
+                <button class="option-btn">e) Raíz</button>
+            </div>
+        </div>
+        <div class="quiz-card">
+            <div class="question-text"><span>14.</span> ¿Qué conceptos están incluidos necesariamente en EROSIÓN? <br><small>I.desgaste II.superficie III.agua IV.viento V.magma</small></div>
+            <div class="options-grid" onclick="checkAnswer(event, 'd')">
+                <button class="option-btn">a) I, II, III, IV, V</button>
+                <button class="option-btn">b) I, II y III</button>
+                <button class="option-btn">c) I, II, III y IV</button>
+                <button class="option-btn" data-opt="d">d) I y II (Desgaste y Superficie)</button>
+            </div>
+        </div>
+        <div class="quiz-card">
+            <div class="question-text"><span>15.</span> ¿Qué conceptos están incluidos necesariamente en PARÁSITO? <br><small>I.organismo II.daño III.mediano IV.dependencia V.amorfo</small></div>
+            <div class="options-grid" onclick="checkAnswer(event, 'b')">
+                <button class="option-btn">a) I, II y III</button>
+                <button class="option-btn" data-opt="b">b) I, II y IV</button>
+                <button class="option-btn">c) I y II</button>
+                <button class="option-btn">d) I, II, III y IV</button>
             </div>
         </div>
     </div>
@@ -505,11 +579,17 @@
 
 <script>
     function checkAnswer(event, correctOpt) {
+        // Encontrar el botón clickeado
         const btn = event.target.closest('button');
         if (!btn) return;
+        
         const grid = btn.parentElement;
         const allBtns = grid.querySelectorAll('button');
+        
+        // Limpiar colores previos en esa pregunta
         allBtns.forEach(b => { b.classList.remove('correct', 'wrong'); });
+
+        // Verificar respuesta
         if (btn.dataset.opt === correctOpt) {
             btn.classList.add('correct');
         } else {
