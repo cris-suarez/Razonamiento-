@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misión Secreta de Palabras</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;600&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* --- 1. CONFIGURACIÓN GENERAL --- */
+        :root {
+            --primary: #FF6B6B;      /* Pastel Red */
+            --secondary: #4ECDC4;    /* Teal */
+            --accent: #FFE66D;       /* Yellow */
+            --dark: #2C3E50;         /* Dark Blue/Grey */
+            --light: #F7FFF7;        /* Off White */
+            --card-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #A8D0E6; /* Light Blue Background */
+            background-image: radial-gradient(#ffffff 20%, transparent 20%);
+            background-size: 20px 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            place-items: center;
+            margin: 0;
+            padding: 40px 0;
+            font-family: 'Comic Neue', cursive;
+        }
+
+        /* --- 2. CONTENEDOR DE LA DIAPOSITIVA --- */
+        .slide-container {
+            background-color: #ffffff;
+            border: 4px solid var(--dark);
+            border-radius: 30px;
+            box-shadow: 15px 15px 0px rgba(0,0,0,0.2); /* Efecto 3D Pop */
+            display: flex;
+            flex-direction: column;
+            height: 720px;
+            width: 1280px;
+            overflow: hidden;
+            position: relative;
+            padding: 40px;
+            transition: transform 0.3s ease;
+        }
+
+        /* --- 3. TIPOGRAFÍA --- */
+        h1, h2, h3 {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--dark);
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 64px; }
+        h2 { font-size: 52px; margin-bottom: 20px; }
+        p, li { font-size: 28px; color: #555; line-height: 1.5; }
+
+        /* --- 4. LAYOUTS --- */
+        .header-bar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 3px dashed #ddd;
+            padding-bottom: 10px;
+        }
+        .badge {
+            background: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 20px;
+        }
+
+        .content-area {
+            display: flex;
+            flex-grow: 1;
+            gap: 40px;
+            align-items: center;
+            height: 100%;
+        }
+
+        .text-col { flex: 1; }
+        .img-col { flex: 1; display: flex; justify-content: center; }
+
+        .img-frame {
+            background: white;
+            padding: 15px;
+            border: 3px solid var(--dark);
+            border-radius: 20px;
+            transform: rotate(-3deg);
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.1);
+            max-height: 450px;
+        }
+        .img-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        /* --- 5. QUIZ STYLES --- */
+        .quiz-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            overflow-y: auto; /* Permitir scroll */
+            padding-right: 20px;
+        }
+
+        .quiz-card {
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .question-text {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 24px;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+        .question-text span {
+            color: var(--primary);
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+            gap: 10px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid var(--secondary);
+            border-radius: 10px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-family: 'Comic Neue', cursive;
+            font-size: 20px;
+            text-align: left;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover {
+            background: var(--secondary);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Interactive Feedback Classes */
+        .option-btn.correct {
+            background-color: #4ECDC4 !important;
+            color: white !important;
+            border-color: #4ECDC4 !important;
+        }
+        .option-btn.wrong {
+            background-color: #FF6B6B !important;
+            color: white !important;
+            border-color: #FF6B6B !important;
+            opacity: 0.6;
+        }
+
+        /* Custom Scrollbar */
+        .quiz-container::-webkit-scrollbar {
+            width: 12px;
+        }
+        .quiz-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .quiz-container::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 10px;
+        }
+
+        /* --- 6. VARIANTS --- */
+        .bg-pink { background-color: #FFE3E3; }
+        .bg-green { background-color: #E3FDF5; }
+        .bg-yellow { background-color: #FFF9C4; }
+
+    </style>
+</head>
+<body>
+
+<div class="slide-container bg-green">
+    <div class="header-bar">
+        <span class="badge"><i class="fas fa-search"></i> Caso #001</span>
+        <span class="badge">Nivel: Detective Junior</span>
+    </div>
+    <div class="content-area">
+        <div class="text-col">
+            <h1>¡Misión Secreta: El Misterio de las Palabras!</h1>
+            <h3 style="color: var(--primary); font-size: 28px; margin: 15px 0;"><i class="fas fa-chalkboard-teacher"></i> Docente: Torres Velasquez Maria Magdalina</h3>
+            <p>Únete al escuadrón y descubre cómo se conectan las palabras.</p>
+            <div style="margin-top: 30px; display: flex; gap: 20px;">
+                <div style="background: var(--primary); color: white; padding: 15px 30px; border-radius: 50px; font-weight: bold; font-family: 'Fredoka';">EMPEZAR MISIÓN</div>
+            </div>
+        </div>
+        <div class="img-col">
+            <div class="img-frame" style="transform: rotate(3deg);">
+                <img src="detectives_ninos.png" alt="Detectives niños">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container bg-pink">
+    <div class="header-bar">
+        <h2>Las Gemelas Traviesas (Homonimia)</h2>
+        <span class="badge"><i class="fas fa-user-friends"></i> Identidad Secreta</span>
+    </div>
+    <div class="content-area">
+        <div class="text-col">
+            <p>Son palabras que <strong>se escriben o suenan igual</strong>, ¡pero significan cosas distintas!</p>
+            <ul style="list-style: none; padding: 0;">
+                <li style="margin-bottom: 15px;"><i class="fas fa-paw" style="color: var(--primary);"></i> <strong>Llama:</strong> Animal andino.</li>
+                <li style="margin-bottom: 15px;"><i class="fas fa-fire" style="color: var(--primary);"></i> <strong>Llama:</strong> Fuego ardiente.</li>
+                <li><i class="fas fa-volume-up" style="color: var(--primary);"></i> <strong>Hola</strong> (saludo) vs <strong>Ola</strong> (mar).</li>
+            </ul>
+        </div>
+        <div class="img-col">
+            <div class="img-frame">
+                <img src="llama_animal.png" alt="Llama animal">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container bg-yellow">
+    <div class="header-bar">
+        <h2>Las Primas Parecidas (Paronimia)</h2>
+        <span class="badge"><i class="fas fa-mask"></i> Disfraz</span>
+    </div>
+    <div class="content-area">
+        <div class="text-col">
+            <p>Palabras que <strong>suenan casi igual</strong>, ¡pero no te dejes engañar!</p>
+            <div style="background: white; padding: 20px; border-radius: 15px; border: 2px dashed var(--dark); margin-top: 20px;">
+                <p style="text-align: center; font-size: 40px; font-family: 'Fredoka'; color: var(--primary);">¿Abeja 🐝 o Oveja 🐑?</p>
+            </div>
+        </div>
+        <div class="img-col">
+            <div class="img-frame" style="transform: rotate(2deg);">
+                <img src="abeja_oveja.png" alt="Abeja vs Oveja">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container bg-green">
+    <div class="header-bar">
+        <h2>Amigos y Rivales</h2>
+        <span class="badge"><i class="fas fa-handshake"></i> Relaciones</span>
+    </div>
+    <div class="content-area">
+        <div class="text-col" style="background: white; padding: 20px; border-radius: 20px; border: 2px solid #4ECDC4;">
+            <h3 style="color: #4ECDC4;">Los Amigos (Sinónimos)</h3>
+            <p>Significan lo mismo.</p>
+            <p>Ejemplo: <strong>Feliz = Contento</strong> 😄</p>
+        </div>
+        <div class="text-col" style="background: white; padding: 20px; border-radius: 20px; border: 2px solid #FF6B6B;">
+            <h3 style="color: #FF6B6B;">Los Rivales (Antónimos)</h3>
+            <p>Son totalmente opuestos.</p>
+            <p>Ejemplo: <strong>Día ☀️ vs Noche 🌙</strong></p>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container bg-yellow">
+    <div class="header-bar">
+        <h2>La Caja Grande (Hiperonimia)</h2>
+        <span class="badge"><i class="fas fa-box-open"></i> Categorías</span>
+    </div>
+    <div class="content-area">
+        <div class="text-col">
+            <p>La <strong>Hiperonimia</strong> es la palabra "Mamá" (Categoría).</p>
+            <p>La <strong>Hiponimia</strong> son los hijos (Elementos).</p>
+            <br>
+            <p><strong>Hiperónimo:</strong> DEPORTES 🏆</p>
+            <p><strong>Hipónimos:</strong> Fútbol, Tenis, Natación.</p>
+        </div>
+        <div class="img-col">
+            <div class="img-frame">
+                <img src="caja_deportes.png" alt="Caja de deportes">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container bg-pink">
+    <div class="header-bar">
+        <h2>El Rompecabezas (Holonimia)</h2>
+        <span class="badge"><i class="fas fa-puzzle-piece"></i> Partes</span>
+    </div>
+    <div class="content-area">
+        <div class="text-col">
+            <p>Relación entre el <strong>TODO</strong> (Holónimo) y sus <strong>PARTES</strong> (Merónimos).</p>
+            <br>
+            <p>🚲 <strong>Bicicleta</strong> (Todo)</p>
+            <p>⬇️ Sus partes son:</p>
+            <p>Pedal, Timón, Llanta.</p>
+        </div>
+        <div class="img-col">
+            <div class="img-frame">
+                <img src="bicicleta_partes.png" alt="Bicicleta partes">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container bg-green" style="border-color: var(--primary);">
+    <div class="header-bar">
+        <h2 style="color: var(--primary);">📝 Examen de Detective: Nivel 1</h2>
+        <span class="badge" style="background: var(--dark);">Teoría Léxica</span>
+    </div>
+    
+    <div class="quiz-container">
+        <div class="quiz-card">
+            <div class="question-text"><span>1.</span> ¿Cómo se denominan las palabras que se escriben igual pero tienen orígenes diferentes?</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'b')">
+                <button class="option-btn">a) Homonimia</button>
+                <button class="option-btn" data-opt="b">b) Homografía</button>
+                <button class="option-btn">c) Homófonas</button>
+                <button class="option-btn">d) Parónimas</button>
+            </div>
+        </div>
+
+        <div class="quiz-card">
+            <div class="question-text"><span>2.</span> ¿Cómo se denomina a los antónimos que presentan la misma raíz? (Ej: legal/ilegal)</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'a')">
+                <button class="option-btn" data-opt="a">a) Antónimos morfológicos</button>
+                <button class="option-btn">b) Antónimos contrarios</button>
+                <button class="option-btn">c) Antónimos recíprocos</button>
+                <button class="option-btn">d) Antónimos totales</button>
+            </div>
+        </div>
+
+        <div class="quiz-card">
+            <div class="question-text"><span>3.</span> ¿Términos que son sinónimos solo en un contexto determinado?</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'c')">
+                <button class="option-btn">a) Sinónimos absolutos</button>
+                <button class="option-btn">b) Sinónimos directos</button>
+                <button class="option-btn" data-opt="c">c) Sinónimos relativos</button>
+                <button class="option-btn">d) Sinónimos referenciales</button>
+            </div>
+        </div>
+
+        <div class="quiz-card">
+            <div class="question-text"><span>4.</span> Determina la relación correcta hiperónimo : hipónimos.</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'c')">
+                <button class="option-btn">a) Reptil: tortuga, rastrero</button>
+                <button class="option-btn">b) Planeta: Mercurio, Luna</button>
+                <button class="option-btn" data-opt="c">c) Moneda: peso, sol, yen</button>
+                <button class="option-btn">d) Ave: ovoide, avestruz</button>
+            </div>
+        </div>
+
+        <div class="quiz-card">
+            <div class="question-text"><span>5.</span> Identifica el hipónimo de MINERAL.</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'c')">
+                <button class="option-btn">a) Mina</button>
+                <button class="option-btn">b) Orfebre</button>
+                <button class="option-btn" data-opt="c">c) Pirita</button>
+                <button class="option-btn">d) Compacto</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container bg-yellow" style="border-color: var(--primary);">
+    <div class="header-bar">
+        <h2 style="color: var(--primary);">📝 Examen de Detective: Nivel 2</h2>
+        <span class="badge" style="background: var(--dark);">Relaciones y Partes</span>
+    </div>
+    
+    <div class="quiz-container">
+        <div class="quiz-card">
+            <div class="question-text"><span>6.</span> ¿Qué vocablo es el HOLÓNIMO (el todo) de pantalla?</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'e')">
+                <button class="option-btn">a) Imagen</button>
+                <button class="option-btn">b) Vidrio</button>
+                <button class="option-btn">c) Transistor</button>
+                <button class="option-btn" data-opt="e">e) Televisor</button>
+            </div>
+        </div>
+
+        <div class="quiz-card">
+            <div class="question-text"><span>7.</span> Determina cuál es el MERÓNIMO (la parte) de buque.</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'd')">
+                <button class="option-btn">a) Guerra</button>
+                <button class="option-btn">b) Nave</button>
+                <button class="option-btn">c) Mar</button>
+                <button class="option-btn" data-opt="d">d) Popa</button>
+            </div>
+        </div>
+
+        <div class="quiz-card">
+            <div class="question-text"><span>8.</span> Identifica la relación correcta Holónimo : Merónimos.</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'a')">
+                <button class="option-btn" data-opt="a">a) Bicicleta: manubrio, pedal</button>
+                <button class="option-btn">b) Escritorio: gaveta, monitor</button>
+                <button class="option-btn">c) Avión: fuselaje, hélice, auto</button>
+                <button class="option-btn">d) Iglesia: cúpula, casa</button>
+            </div>
+        </div>
+        
+        <div class="quiz-card">
+            <div class="question-text"><span>9.</span> Sinonimia: "Efectivos policiales <u>cogieron</u> al hampón..."</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'b')">
+                <button class="option-btn">a) Tomaron</button>
+                <button class="option-btn" data-opt="b">b) Aprehendieron</button>
+                <button class="option-btn">c) Sujetaron</button>
+                <button class="option-btn">d) Cautivaron</button>
+            </div>
+        </div>
+
+        <div class="quiz-card">
+            <div class="question-text"><span>10.</span> Sinonimia: "Los asentamientos <u>adolecen</u> de servicios..."</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'e')">
+                <button class="option-btn">a) Necesitan</button>
+                <button class="option-btn">b) Limitan</button>
+                <button class="option-btn">c) Padecen</button>
+                <button class="option-btn" data-opt="e">e) Carecen</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container bg-pink" style="border-color: var(--primary);">
+    <div class="header-bar">
+        <h2 style="color: var(--primary);">📝 Examen de Detective: Nivel Experto</h2>
+        <span class="badge" style="background: var(--dark);">Antonimia e Inclusión</span>
+    </div>
+    
+    <div class="quiz-container">
+        <div class="quiz-card">
+            <div class="question-text"><span>11.</span> Antonimia (Opuesto): "La mentira <u>menoscaba</u> a quien la inventa."</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'b')">
+                <button class="option-btn">a) Enriquece</button>
+                <button class="option-btn" data-opt="b">b) Dignifica</button>
+                <button class="option-btn">c) Prospera</button>
+                <button class="option-btn">d) Encandila</button>
+            </div>
+        </div>
+
+        <div class="quiz-card">
+            <div class="question-text"><span>12.</span> Antonimia (Opuesto): "Mi primo ya es <u>ducho</u> (experto) en kárate."</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'd')">
+                <button class="option-btn">a) Ignorante</button>
+                <button class="option-btn">b) Fuerte</button>
+                <button class="option-btn">c) Versado</button>
+                <button class="option-btn" data-opt="d">d) Inexperto</button>
+            </div>
+        </div>
+
+        <div class="quiz-card">
+            <div class="question-text"><span>13.</span> Identifique el término IMPLICADO en los demás (flor, hoja, fruto, raíz).</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'd')">
+                <button class="option-btn">a) Flor</button>
+                <button class="option-btn">b) Fruto</button>
+                <button class="option-btn" data-opt="d">d) Planta</button>
+                <button class="option-btn">e) Raíz</button>
+            </div>
+        </div>
+
+        <div class="quiz-card">
+            <div class="question-text"><span>14.</span> ¿Qué conceptos están incluidos en EROSIÓN? (I.desgaste II.superficie III.agua)</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'e')">
+                <button class="option-btn">a) I, II, III, IV</button>
+                <button class="option-btn">b) I, II y III</button>
+                <button class="option-btn">c) I y II</button>
+                <button class="option-btn" data-opt="e">e) I y II (Desgaste y Superficie)</button>
+            </div>
+        </div>
+
+        <div class="quiz-card">
+            <div class="question-text"><span>15.</span> ¿Qué conceptos están incluidos en PARÁSITO? (I.organismo II.daño IV.dependencia)</div>
+            <div class="options-grid" onclick="checkAnswer(event, 'b')">
+                <button class="option-btn">a) I y II</button>
+                <button class="option-btn" data-opt="b">b) I, II y IV</button>
+                <button class="option-btn">c) I, II, III</button>
+                <button class="option-btn">d) I, II, V</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function checkAnswer(event, correctOpt) {
+        // Find if a button was clicked
+        const btn = event.target.closest('button');
+        if (!btn) return;
+        
+        // Find the parent grid to disable other buttons
+        const grid = btn.parentElement;
+        
+        // Reset previous colors in this specific grid
+        const allBtns = grid.querySelectorAll('button');
+        allBtns.forEach(b => {
+            b.classList.remove('correct', 'wrong');
+        });
+
+        // Check logic
+        if (btn.dataset.opt === correctOpt) {
+            btn.classList.add('correct');
+        } else {
+            btn.classList.add('wrong');
+        }
+    }
+</script>
+
+</body>
+</html>
